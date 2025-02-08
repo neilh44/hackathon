@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: pdf-query-app
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.0
+      - key: FLASK_ENV
+        value: production
+      - key: FLASK_APP
+        value: app.py
+    
+    # Specify the plan (optional)
+    plan: starter
+    
+    # Instance size (optional)
+    instanceType: basic
+    
+    # Number of instances (optional)
+    numInstances: 1
+    
+    # Health check configuration
+    healthCheckPath: /
+    
+    # Automatic deployments configuration
+    autoDeploy: true
+    
+    # Region configuration (optional)
+    region: oregon
+    
+    # Domain configuration (optional)
+    domains:
+      - pdf-query-app.onrender.com
