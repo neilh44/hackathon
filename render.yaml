@@ -1,33 +1,11 @@
 services:
   - type: web
-    name: pdf-query-app
+    name: your-app-name
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 120
     envVars:
-      - key: PYTHON_VERSION
-        value: 3.9.0
-      - key: FLASK_ENV
-        value: production
-      - key: FLASK_APP
-        value: app.py
       - key: PORT
         value: 10000
-    
-    # Specify the plan (optional)
-    plan: starter
-    
-    # Instance size (optional)
-    instanceType: basic
-    
-    # Number of instances (optional)
-    numInstances: 1
-    
-    # Health check configuration
-    healthCheckPath: /
-    
-    # Automatic deployments configuration
-    autoDeploy: true
-    
-    # Region configuration (optional)
-    region: oregon
+      - key: PYTHONUNBUFFERED
+        value: 1
