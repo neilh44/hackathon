@@ -1,11 +1,37 @@
 services:
   - type: web
-    name: your-app-name
+    name: pdf-qa-app
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 120
+    startCommand: gunicorn app:app
     envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.12
       - key: PORT
         value: 10000
-      - key: PYTHONUNBUFFERED
-        value: 1
+      - key: GROQ_API_KEY
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
+    autoDeploy: true
+    healthCheckPath: /
+    disk:
+      name: tmp
+      mountPath: /tmp
+      sizeGB: 1
+    dependencies:
+      - type: system
+        name: tesseract-ocr
+      - type: system
+        name: tesseract-ocr-eng
+    buildFilter:
+      paths:
+        - requirements.txt
+        - "**/*.py"
+        - templates/**
+    scaling:
+      minInstances: 1
+      maxInstances: 1
+      targetMemoryPercent: 80
