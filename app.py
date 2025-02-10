@@ -60,7 +60,6 @@ def query_document():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    # Get port from environment variable for Render deployment
     port = int(os.environ.get("PORT", 10000))
-    # Run the app with the correct host and port
     app.run(host='0.0.0.0', port=port)
+

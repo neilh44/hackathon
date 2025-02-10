@@ -69,3 +69,9 @@ pip-log.txt
 
 #folder
 chroma_db/
+
+__pycache__
+*.pyc
+temp*
+*.pdf
+*.md
