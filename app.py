@@ -60,5 +60,7 @@ def query_document():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run()
-
+    # Get port from environment variable with a default of 10000
+    port = int(os.environ.get("PORT", 3000))
+    # Run the app on host 0.0.0.0 to make it accessible externally
+    app.run(host='0.0.0.0', port=port)
