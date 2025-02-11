@@ -1,14 +1,19 @@
+# render.yaml
 services:
   - type: web
     name: pdf-qa-app
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app:app
+    # Update the start command to explicitly bind to PORT
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --log-file -
     envVars:
       - key: PYTHON_VERSION
         value: 3.9.12
       - key: PORT
-        value: 10000
+        fromService:
+          type: web
+          name: pdf-qa-app
+          property: port
       - key: GROQ_API_KEY
         sync: false
       - key: SUPABASE_URL
