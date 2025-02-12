@@ -6,6 +6,9 @@ import os
 # Initialize Flask app
 app = Flask(__name__)
 
+# Get port from environment variable for Render deployment
+port = int(os.environ.get("PORT", 10000))
+
 # Initialize processors
 pdf_processor = PDFProcessor()
 vector_store = VectorStore()
@@ -13,6 +16,10 @@ vector_store = VectorStore()
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/health')
+def health_check():
+    return jsonify({'status': 'healthy'}), 200
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -57,5 +64,9 @@ def query_document():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 3000))
-    app.run(host='0.0.0.0', port=port)
+    # For local development
+    if os.environ.get('FLASK_ENV') == 'development':
+        app.run(debug=True)
+    else:
+        # For production deployment
+        app.run(host='0.0.0.0', port=port)
