@@ -8,6 +8,11 @@ import re
 import os
 from pathlib import Path
 
+# Set Tesseract path and environment
+pytesseract.pytesseract.tesseract_cmd = '/usr/local/Cellar/tesseract/5.5.0/bin/tesseract'
+os.environ['TESSDATA_PREFIX'] = '/usr/local/Cellar/tesseract/5.5.0/share/tessdata'
+
+
 class PDFAnalyzer:
     def __init__(self):
         self.logger = logging.getLogger(__name__)
